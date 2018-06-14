@@ -39,11 +39,11 @@ namespace PopCom
         {
             //create menu
             //popup contextmenu when doubleclicked or when clicked in the menu.
-            MenuItem item = new MenuItem("VriServer Control", new EventHandler(notify_DoubleClick));
-            contextmenu.MenuItems.Add(item);
+            //MenuItem item = new MenuItem("VriServer Control", new EventHandler(notify_DoubleClick));
+            //contextmenu.MenuItems.Add(item);
             //add a exit submenu item
-            item = new MenuItem("Exit", new EventHandler(Menu_OnExit));
-            contextmenu.MenuItems.Add(item);
+            //item = new MenuItem("Exit", new EventHandler(Menu_OnExit));
+            //contextmenu.MenuItems.Add(item);
 
 
             //notifyicon
@@ -51,37 +51,38 @@ namespace PopCom
             notify.Icon = PopCom.popcom;
             notify.Text = "PopCom Plug-in notifier";
             notify.ContextMenu = contextmenu;
-            notify.DoubleClick += new EventHandler(notify_DoubleClick); //show form when double clicked
             notify.Visible = true;
 
 
+            // Create a WMI query for device insertion
             WqlEventQuery insertQuery = new WqlEventQuery("SELECT * FROM __InstanceCreationEvent WITHIN 2 WHERE TargetInstance ISA 'Win32_PnPEntity'");
 
             ManagementEventWatcher insertWatcher = new ManagementEventWatcher(insertQuery);
-            insertWatcher.EventArrived += new EventArrivedEventHandler(DeviceInsertedEvent);
+            insertWatcher.EventArrived += new EventArrivedEventHandler((object sender, EventArrivedEventArgs args) => DeviceEvent(sender, args, true));
             insertWatcher.Start();
+
+            // Create a WMI query for device removal
+            WqlEventQuery removeQuery = new WqlEventQuery("SELECT * FROM __InstanceDeletionEvent WITHIN 2 WHERE TargetInstance ISA 'Win32_PnPEntity'");
+
+            ManagementEventWatcher removeWatcher = new ManagementEventWatcher(removeQuery);
+            removeWatcher.EventArrived += new EventArrivedEventHandler((object sender, EventArrivedEventArgs args) => DeviceEvent(sender, args, false));
+            removeWatcher.Start();
 
         }
 
-        private void DeviceInsertedEvent(object sender, EventArrivedEventArgs e)
+        private void DeviceEvent(object sender, EventArrivedEventArgs e, bool insertion)
         {
             ManagementBaseObject instance = (ManagementBaseObject)e.NewEvent["TargetInstance"];
 
             var guid = instance["ClassGuid"];
             if (guid != null && guid.ToString() == "{4d36e978-e325-11ce-bfc1-08002be10318}")
             {
-                notify.ShowBalloonTip(20000, "Port Plugged in", instance["Caption"].ToString(), ToolTipIcon.Info);
+                notify.ShowBalloonTip(20000, 
+                    insertion? "Port Plugged in" : "Port plugged out",
+                    instance["Caption"].ToString(), ToolTipIcon.Info);
             }
 
         }
-
-        //notify.ShowBalloonTip(1000);
-
-
-        void notify_DoubleClick(object sender, EventArgs e)
-        {
-        }
-
 
         ~Popper()
         {
