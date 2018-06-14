@@ -63,26 +63,6 @@ namespace PopCom {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon plug_in {
-            get {
-                object obj = ResourceManager.GetObject("plug_in", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-        /// </summary>
-        internal static System.Drawing.Icon plug_out {
-            get {
-                object obj = ResourceManager.GetObject("plug_out", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-        /// </summary>
         internal static System.Drawing.Icon popcom {
             get {
                 object obj = ResourceManager.GetObject("popcom", resourceCulture);

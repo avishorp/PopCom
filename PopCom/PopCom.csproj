@@ -56,6 +56,7 @@
     <EmbeddedResource Include="PopCom.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>PopCom.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -80,12 +81,6 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="assets\plug_in.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="assets\plug_out.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\popcom.ico" />
