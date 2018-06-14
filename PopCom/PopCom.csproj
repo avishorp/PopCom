@@ -45,9 +45,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PopCom.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PopCom.resx</DependentUpon>
+    </Compile>
     <Compile Include="Popper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="PopCom.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PopCom.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -71,6 +80,15 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\plug_in.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\plug_out.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\popcom.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

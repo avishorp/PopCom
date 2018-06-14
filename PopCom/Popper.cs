@@ -4,6 +4,8 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Management;
+using System.Drawing;
+using PopCom.Properties;
 
 /**********************************Simple Tray Icon sample DOTNET 2.0***********************************************
  * This class creates the notification icon that dotnet 2.0 offers.
@@ -25,7 +27,6 @@ namespace PopCom
 
         //notify icon: prepare the icons we may use in the notification
         NotifyIcon notify;
-        System.Drawing.Icon iconstop = new System.Drawing.Icon("STOPSIGN.ICO");
 
         ContextMenu contextmenu = new ContextMenu();
 
@@ -47,11 +48,12 @@ namespace PopCom
 
             //notifyicon
             notify = new NotifyIcon();
-            notify.Icon = iconstop;
-            notify.Text = "VriServerManager";
+            notify.Icon = PopCom.popcom;
+            notify.Text = "PopCom Plug-in notifier";
             notify.ContextMenu = contextmenu;
             notify.DoubleClick += new EventHandler(notify_DoubleClick); //show form when double clicked
             notify.Visible = true;
+
 
             WqlEventQuery insertQuery = new WqlEventQuery("SELECT * FROM __InstanceCreationEvent WITHIN 2 WHERE TargetInstance ISA 'Win32_PnPEntity'");
 
@@ -68,8 +70,7 @@ namespace PopCom
             var guid = instance["ClassGuid"];
             if (guid != null && guid.ToString() == "{4d36e978-e325-11ce-bfc1-08002be10318}")
             {
-                ToolTipIcon tti = new ToolTipIcon();
-                notify.ShowBalloonTip(20000, "Device Insertion", "Device inserted " + instance["Caption"], tti);
+                notify.ShowBalloonTip(20000, "Port Plugged in", instance["Caption"].ToString(), ToolTipIcon.Info);
             }
 
         }
