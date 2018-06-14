@@ -49,11 +49,10 @@ namespace PopCom
             contextMenu.MenuItems.Add(enablePlugOutMenuItem);
             enablePlugInMenuItem.Checked = true;
             //add a exit submenu item
-            //item = new MenuItem("Exit", new EventHandler(Menu_OnExit));
-            //contextmenu.MenuItems.Add(item);
+            contextMenu.MenuItems.Add("-");
+            contextMenu.MenuItems.Add(new MenuItem("Exit", new EventHandler(Menu_OnExit)));
 
-
-            //notifyicon
+            // notifyicon
             notify = new NotifyIcon();
             notify.Icon = PopCom.popcom;
             notify.Text = "PopCom Plug-in notifier";
