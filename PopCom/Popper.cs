@@ -7,17 +7,6 @@ using System.Management;
 using System.Drawing;
 using PopCom.Properties;
 
-/**********************************Simple Tray Icon sample DOTNET 2.0***********************************************
- * This class creates the notification icon that dotnet 2.0 offers.
- * It will be displaying the status of the application with appropiate icons.
- * It will have a contextmenu that enables the user to open the form or exit the application.
- * The form could be used to change settings of the app which in turn are saved in the app.config or some other file.
- * This formless, useless, notification sample does only chane the icon and balloontext.
- * NOTE:Chacker is a Singleton class so it will only allow to be instantiated once, and therefore only one instance.
- * I have done this to prevent more then one icon on the tray and to share data with the form (if any)
- *
- ******************************************************************************************************************/
-
 namespace PopCom
 {
     class Popper : IDisposable
