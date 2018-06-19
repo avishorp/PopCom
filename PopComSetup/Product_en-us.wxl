@@ -4,12 +4,12 @@
   <!-- Supported language and codepage codes can be found here: http://www.tramontana.co.hu/wix/lesson2.php#2.4 -->
 
   <String Id="ApplicationName">PopCom</String>
-  <String Id="ManufacturerName">Avishay Orpaz</String>
+  <String Id="ManufacturerName">OrpazOSS</String>
   <String Id="ManufacturerFullName">Avishay Orpaz</String>
   <String Id="ProductDescription">Communication port plug-in/out notification</String>
   <String Id="Comments">Installs PopCom</String>
 
-  <String Id="LicenseRtf" Overridable="yes">Eula-en.rtf</String>
+  <String Id="LicenseRtf" Overridable="yes">LICENSE</String>
 
   <String Id="OS2Old">This product requires at least Windows 7.</String>
   <String Id="NewerInstalled">The same or a newer version of this product is already installed.</String>

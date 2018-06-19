@@ -207,15 +207,23 @@
           </Directory>
       </Directory>
 
-      <!-- Registry entries -->
-<!--      <Component Id="RegValInstallLocation_comp" Guid="YOUR-GUID-HERE"> -->
+      <!-- Registry entries - settings -->
+      <Component Id="RegValSettings_comp" Guid="9186b058-0b69-4fa5-adf3-4afc42b7afd6">
         <!-- Do NOT use the application's default registry key here, because THIS key will be removed on uninstall
                  (important when installing a newer version, because that is uninstall followed by install) -->
-<!--        <RegistryKey Root="HKLM" Key="Software\!(loc.ManufacturerName)\InstalledProducts\!(loc.ApplicationName)">
+        <RegistryKey Root="HKLM" Key="Software\!(loc.ManufacturerName)\InstalledProducts\!(loc.ApplicationName)">
           <RegistryValue Name="InstallLocation" Value="[INSTALLDIR]" Type="string" KeyPath="yes" />
-          <RegistryValue Name="Servers" Value="[SERVERS]" Type="string" />
+          <RegistryValue Name="NotifPlugIn" Value="1" Type="integer" />
+          <RegistryValue Name="NotifPlugOut" Value="1" Type="integer" />
         </RegistryKey> 
-      </Component> -->
+      </Component>
+
+      <!-- Registry entry for auto-start -->
+      <Component Id="RegValAutoStart_comp" Guid="e585ca83-2590-49b0-8584-6a76b2ac7026">
+        <RegistryKey Root="HKLM" Key="Software\Microsoft\Windows\CurrentVersion\Run">
+          <RegistryValue Name="PopCom" Value="[INSTALLDIR]\PopCom.exe" Type="string" KeyPath="no"/>
+        </RegistryKey>
+      </Component>
 
     </Directory>
 
@@ -232,6 +240,8 @@
     <Feature Id="Complete" Title="!(loc.ApplicationName)" Description="!(loc.FeatureCompleteDescription)" Display="expand" Level="1" ConfigurableDirectory="INSTALLDIR">
       <ComponentRef Id="INSTALLDIR_comp"/>
       <ComponentRef Id="EXE_comp"/>
+      <ComponentRef Id="RegValSettings_comp"/>
+      <ComponentRef Id="RegValAutoStart_comp"/>
     </Feature>
 
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
