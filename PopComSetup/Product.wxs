@@ -211,7 +211,7 @@
       <Component Id="RegValSettings_comp" Guid="9186b058-0b69-4fa5-adf3-4afc42b7afd6">
         <!-- Do NOT use the application's default registry key here, because THIS key will be removed on uninstall
                  (important when installing a newer version, because that is uninstall followed by install) -->
-        <RegistryKey Root="HKLM" Key="Software\!(loc.ManufacturerName)\InstalledProducts\!(loc.ApplicationName)">
+        <RegistryKey Root="HKLM" Key="Software\!(loc.ApplicationName)">
           <RegistryValue Name="InstallLocation" Value="[INSTALLDIR]" Type="string" KeyPath="yes" />
           <RegistryValue Name="NotifPlugIn" Value="1" Type="integer" />
           <RegistryValue Name="NotifPlugOut" Value="1" Type="integer" />

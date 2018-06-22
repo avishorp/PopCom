@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Management;
 using System.Drawing;
 using PopCom.Properties;
+using Microsoft.Win32;
 
 namespace PopCom
 {
@@ -19,6 +20,11 @@ namespace PopCom
         private ContextMenu contextMenu = new ContextMenu();
         private MenuItem enablePlugInMenuItem;
         private MenuItem enablePlugOutMenuItem;
+
+        // Registry keys
+        private const string REGISTRY_KEY_SETTINGS = "SOFTWARE\\PopCom";
+        private const string REGISTRY_VALUE_ENABLE_PLUGIN = "NotifPlugIn";
+        private const string REGISTRY_VALUE_ENABLE_PLUGOUT = "NotifPlugOut";
 
         // Events enabled
         bool enablePlugIn = true;
@@ -51,6 +57,7 @@ namespace PopCom
             enablePlugInNotif = true;
             enablePlugOutNotif = false;
 
+            ReadSettings();
 
             // Create a WMI query for device insertion
             WqlEventQuery insertQuery = new WqlEventQuery("SELECT * FROM __InstanceCreationEvent WITHIN 2 WHERE TargetInstance ISA 'Win32_PnPEntity'");
@@ -66,6 +73,51 @@ namespace PopCom
             removeWatcher.EventArrived += new EventArrivedEventHandler((object sender, EventArrivedEventArgs args) => DeviceEvent(sender, args, false));
             removeWatcher.Start();
 
+        }
+
+        private void ReadSettings()
+        {
+            enablePlugInNotif = ConvertToBoolSafe(ReadRegistryKeyCascading(REGISTRY_KEY_SETTINGS, REGISTRY_VALUE_ENABLE_PLUGIN, false));
+            enablePlugOutNotif = ConvertToBoolSafe(ReadRegistryKeyCascading(REGISTRY_KEY_SETTINGS, REGISTRY_VALUE_ENABLE_PLUGOUT, false));
+        }
+
+        private void WriteSettings()
+        {
+            try
+            {
+                Registry.SetValue(Registry.CurrentUser.Name + "\\" + REGISTRY_KEY_SETTINGS, REGISTRY_VALUE_ENABLE_PLUGIN, enablePlugInNotif);
+                Registry.SetValue(Registry.CurrentUser.Name + "\\" + REGISTRY_KEY_SETTINGS, REGISTRY_VALUE_ENABLE_PLUGOUT, enablePlugOutNotif);
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show("Failed writing the settings to registry", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private object ReadRegistryKeyCascading(string key, string value, object defaultValue)
+        {
+            // First, try to read the key from the local (user) scope
+            object v = Registry.GetValue(Registry.CurrentUser.Name + "\\"+ key, value, null);
+
+            // If the value exists, return it
+            if (v != null)
+                return v;
+
+            // Try from the global (machine) scope. If it does not
+            // exist there either, return the default value
+            return Registry.GetValue(Registry.LocalMachine.Name + "\\" + key, value, defaultValue);
+        }
+
+        private bool ConvertToBoolSafe(object o)
+        {
+            try
+            {
+                return Convert.ToBoolean(o);
+            }
+            catch(FormatException e)
+            {
+                return false;
+            }
         }
 
         private void DeviceEvent(object sender, EventArrivedEventArgs e, bool insertion)
@@ -129,11 +181,13 @@ namespace PopCom
         private void togglePlugInNotif(object sender, EventArgs args)
         {
             enablePlugInNotif = !enablePlugInNotif;
+            WriteSettings();
         }
 
         private void togglePlugOutNotif(object sender, EventArgs args)
         {
             enablePlugOutNotif = !enablePlugOutNotif;
+            WriteSettings();
         }
 
     }
