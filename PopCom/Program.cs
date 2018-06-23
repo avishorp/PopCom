@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
+using System.Diagnostics;
 
 namespace PopCom
 {
@@ -37,46 +38,32 @@ namespace PopCom
 
         static void myCurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            string error = "";
             try
             {
                 Exception unhandeld = (Exception)e.ExceptionObject;
-                error = "++++++++++++++++++++++++++++UNHANDELD EXCEPTION++++++++++++++++++++++++++++++++++++++++++++\r\n";
-                error += DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss:fff") + "\r\n";
-                error += "CLS Terminating = " + e.IsTerminating.ToString() + "\r\n";
-                error += "------------------------------------------------------------------------------------------\r\n";
-                error += "Exception:\r\n";
+                string error = "Exception:\r\n";
                 error += "Message: " + unhandeld.Message + "\r\n";
                 error += "Source:  " + unhandeld.Source + "\r\n";
                 error += "StackTrace:  " + unhandeld.StackTrace + "\r\n";
-                error += "==========================================================================================\r\n";
-                error += "Innerexception Message: \r\n";
                 if (unhandeld.InnerException != null)
                 {
+                    error += "Innerexception Message: \r\n";
                     error += unhandeld.InnerException.Message + "\r\n";
                     error += "Source:  " + unhandeld.InnerException.Source + "\r\n";
                     error += "StackTrace:  " + unhandeld.InnerException.StackTrace + "\r\n";
                 }
-                error += "==========================================================================================\r\n";
-                using (StreamWriter writer = new StreamWriter("unhandled.txt", true))
-                {
-                    writer.WriteLine(error);
-                    writer.Flush();
-                    writer.Close();
-                }
+
+                EventLog.WriteEntry("Application", error, EventLogEntryType.Information);
             }
             catch (Exception more)
             {
                 //even more misery
-                MessageBox.Show(error + " additional problem: " + more.Message);
+                MessageBox.Show("Additional problem: " + more.Message);
             }
             finally
             {
-                //cleanup 
-                if (e.IsTerminating)
-                {
-                    MessageBox.Show(error);
-                }
+                MessageBox.Show(Application.ProductName + " has encountered an error, and will now close. Please check the Event Viewer for more details", 
+                    "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
