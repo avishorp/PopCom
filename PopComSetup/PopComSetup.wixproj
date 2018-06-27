@@ -23,7 +23,7 @@
     <Compile Include="WxiUI.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="LicenseAgreementDlg.wks" />
+    <Compile Include="LicenseAgreementDlg.wxs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Product_en-us.wxl" />

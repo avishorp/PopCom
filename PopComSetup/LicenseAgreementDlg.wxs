@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Fragment>
     <UI>
-      <Dialog Id="LicenseAgreementDlg_HK" Width="370" Height="270" Title="!(loc.LicenseAgreementDlg_Title)">
+      <Dialog Id="LicenseAgreementDlg_Custom" Width="370" Height="270" Title="!(loc.LicenseAgreementDlg_Title)">
         <Control Id="LicenseAcceptedCheckBox" Type="CheckBox" X="20" Y="207" Width="330" Height="18" CheckBoxValue="1" Property="LicenseAccepted" Text="!(loc.LicenseAgreementDlgLicenseAcceptedCheckBox)" />
         <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="!(loc.WixUIBack)" />
         <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="!(loc.WixUINext)">
@@ -14,13 +14,13 @@
           <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
         </Control>
         <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="!(loc.LicenseAgreementDlgBannerBitmap)" />
-        <Control Id="LicenseText" Type="ScrollableText" X="20" Y="60" Width="330" Height="140" Sunken="yes" TabSkip="no">
+        <Control Id="XLicenseText" Type="ScrollableText" X="20" Y="60" Width="330" Height="140" Sunken="yes" TabSkip="no">
           <!-- This is the original line -->
           <!--<Text SourceFile="!(wix.WixUILicenseRtf=$(var.LicenseRtf))" />-->
           <!-- To enable EULA localization we change it to this: -->
-          <Text SourceFile="$(var.ProjectDir)\!(loc.LicenseRtf)" />
-          <!-- In each of the localization files (wxl) put a line like this:
-            <String Id="LicenseRtf" Overridable="yes">EULA_en-us.rtf</String>-->
+          <Text SourceFile="$(var.ProjectDir)gpl-3.0.rtf" />
+
+          
         </Control>
         <Control Id="Print" Type="PushButton" X="112" Y="243" Width="56" Height="17" Text="!(loc.WixUIPrint)">
           <Publish Event="DoAction" Value="WixUIPrintEula">1</Publish>
