@@ -221,7 +221,7 @@
       <!-- Registry entry for auto-start -->
       <Component Id="RegValAutoStart_comp" Guid="e585ca83-2590-49b0-8584-6a76b2ac7026" Location="local">
         <RegistryKey Root="HKLM" Key="Software\Microsoft\Windows\CurrentVersion\Run">
-          <RegistryValue Name="PopCom" Value="[INSTALLDIR]\PopCom.exe" Type="string" KeyPath="no"/>
+          <RegistryValue Name="PopCom" Value="[INSTALLDIR]PopCom.exe" Type="string" KeyPath="no"/>
         </RegistryKey>
       </Component>
 
