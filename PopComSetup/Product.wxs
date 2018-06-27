@@ -208,7 +208,7 @@
       </Directory>
 
       <!-- Registry entries - settings -->
-      <Component Id="RegValSettings_comp" Guid="9186b058-0b69-4fa5-adf3-4afc42b7afd6">
+      <Component Id="RegValSettings_comp" Guid="9186b058-0b69-4fa5-adf3-4afc42b7afd6" Location="local">
         <!-- Do NOT use the application's default registry key here, because THIS key will be removed on uninstall
                  (important when installing a newer version, because that is uninstall followed by install) -->
         <RegistryKey Root="HKLM" Key="Software\!(loc.ApplicationName)">
@@ -219,7 +219,7 @@
       </Component>
 
       <!-- Registry entry for auto-start -->
-      <Component Id="RegValAutoStart_comp" Guid="e585ca83-2590-49b0-8584-6a76b2ac7026">
+      <Component Id="RegValAutoStart_comp" Guid="e585ca83-2590-49b0-8584-6a76b2ac7026" Location="local">
         <RegistryKey Root="HKLM" Key="Software\Microsoft\Windows\CurrentVersion\Run">
           <RegistryValue Name="PopCom" Value="[INSTALLDIR]\PopCom.exe" Type="string" KeyPath="no"/>
         </RegistryKey>
@@ -237,10 +237,13 @@
       <UIRef Id="WixUI_HK" />
     </UI>
 
-    <Feature Id="Complete" Title="!(loc.ApplicationName)" Description="!(loc.FeatureCompleteDescription)" Display="expand" Level="1" ConfigurableDirectory="INSTALLDIR">
+    <Feature Id="Complete" Title="!(loc.ApplicationName)" Description="!(loc.FeatureCompleteDescription)" Display="expand" Level="1" ConfigurableDirectory="INSTALLDIR" Absent="disallow" AllowAdvertise="no">
       <ComponentRef Id="INSTALLDIR_comp"/>
       <ComponentRef Id="EXE_comp"/>
       <ComponentRef Id="RegValSettings_comp"/>
+    </Feature>
+
+    <Feature Id="AutoStart" Title="Auto Start" Description="Start automatically whan a user logs in" Display="expand" Level="1" AllowAdvertise="no">
       <ComponentRef Id="RegValAutoStart_comp"/>
     </Feature>
 
