@@ -205,8 +205,14 @@
             </Component>
 
           </Directory>
+
+        <Directory Id="ProgramMenuFolder">
+          <Directory Id="ApplicationProgramsFolder" Name="PopCom"/>
+        </Directory>
+
       </Directory>
 
+      
       <!-- Registry entries - settings -->
       <Component Id="RegValSettings_comp" Guid="9186b058-0b69-4fa5-adf3-4afc42b7afd6" Location="local">
         <!-- Do NOT use the application's default registry key here, because THIS key will be removed on uninstall
@@ -227,6 +233,20 @@
 
     </Directory>
 
+    <!-- Start menu shortcut -->
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="f2b6480b-abe5-432f-a4dd-6e7502f3924d">
+        <Shortcut Id="ApplicationStartMenuShortcut"
+                  Name="PopCom"
+                  Description="Plug-in/out Detection"
+                  Target="[#PopComExe]"
+                  WorkingDirectory="INSTALLDIR"/>
+        <RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\Microsoft\PopCom" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+
+
     <!--
          End of directory structure
          ====================================================================================
@@ -241,11 +261,18 @@
       <ComponentRef Id="INSTALLDIR_comp"/>
       <ComponentRef Id="EXE_comp"/>
       <ComponentRef Id="RegValSettings_comp"/>
+      <ComponentRef Id="ApplicationShortcut"/>
+
     </Feature>
 
     <Feature Id="AutoStart" Title="Auto Start" Description="Start automatically whan a user logs in" Display="expand" Level="1" AllowAdvertise="no">
       <ComponentRef Id="RegValAutoStart_comp"/>
     </Feature>
+
+    <!--
+    <Feature Id="StartMenuShortcut" Title="Start Menu" Description="Create an entry in the Start menu" Display="expand" Level="1" AllowAdvertise="no">
+    </Feature>
+    -->
 
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
     <Property Id="WIXUI_SERVERS" Value="SERVERS" />
