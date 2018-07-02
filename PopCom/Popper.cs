@@ -77,7 +77,7 @@ namespace PopCom
 
         private void ReadSettings()
         {
-            enablePlugInNotif = ConvertToBoolSafe(ReadRegistryKeyCascading(REGISTRY_KEY_SETTINGS, REGISTRY_VALUE_ENABLE_PLUGIN, false));
+            enablePlugInNotif = ConvertToBoolSafe(ReadRegistryKeyCascading(REGISTRY_KEY_SETTINGS, REGISTRY_VALUE_ENABLE_PLUGIN, true));
             enablePlugOutNotif = ConvertToBoolSafe(ReadRegistryKeyCascading(REGISTRY_KEY_SETTINGS, REGISTRY_VALUE_ENABLE_PLUGOUT, false));
         }
 
